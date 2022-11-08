@@ -47,13 +47,14 @@ def kmeans(data, f0, f1, k) :
     
     
 path = './artificial/'
-databrut = arff.loadarff(open(path+"xclara.arff", 'r'))
+databrut = arff.loadarff(open(path+"spiral.arff", 'r'))
 datanp = [[x[0], x[1]] for x in databrut[0]]
 f0 = [f[0] for f in datanp]
 f1 = [f[1] for f in datanp]
 
-k=3
+k=9
 labelsKMedoids = kmedoidsFun(datanp, f0, f1, k)
 labelsKMeans = kmeans(datanp, f0, f1, k)
 
 print(metrics.rand_score(labelsKMedoids, labelsKMeans))
+print(metrics.mutual_info_score(labelsKMedoids, labelsKMeans))

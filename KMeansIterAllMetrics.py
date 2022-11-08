@@ -20,7 +20,11 @@ Created on Wed Oct  5 11:11:18 2022
 # datasets qui ne marchent pas bien :
 # dense-disk-3000.arff k=2
 # long1.arff k=2
+# zelnik5.arff k=4
+# banana.arff k=2
 # smile1.arff k=4
+# cluto-t4-8k.arff
+# cure-t0-2000n-2D.arff
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -46,16 +50,20 @@ def kmeans(data, f0, f1, k) :
     return labels
     
     
-path = './artificial/'
-databrut = arff.loadarff(open(path+"dense-disk-3000.arff", 'r'))
-datanp = [[x[0], x[1]] for x in databrut[0]]
-f0 = [f[0] for f in datanp]
-f1 = [f[1] for f in datanp]
+path ='./dataset-rapport/'
+name="y1"
+databrut = np.loadtxt(path+name+".txt", unpack = True)
+f0 = databrut[0]
+f1 = databrut[1]
+
+datanp=[]
+for x in range(len(f0)) :
+    datanp.append([f0[x], f1[x]])
 scores1 = []
 scores2 = []
 scores3 = []
 
-for k in range (2, 25, 1):
+for k in range (2, 20, 1):
     labels = kmeans(datanp, f0, f1, k)
     scores1.append(metrics.silhouette_score(datanp,labels))
     scores2.append(metrics.davies_bouldin_score(datanp,labels))
@@ -74,3 +82,5 @@ for i in range(23):
     
 plt.plot(range(2,25,1), scores3, color = 'green', linestyle = 'dashed', linewidth = 2,
   markerfacecolor = 'blue', markersize = 5)
+
+plt.savefig("scoreY1")
